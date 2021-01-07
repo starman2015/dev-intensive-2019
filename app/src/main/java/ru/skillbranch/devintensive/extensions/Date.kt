@@ -37,6 +37,7 @@ fun Date.humanizeDiff(date: Date = Date()): String {
     return getHumanizeDiffResult(timeUnit, indexAndValue.second, milliseconds, indexAndValue.first, isPast)
 }
 
+
 enum class TimeUnits(val declines: List<String>, val milliseconds: Long) {
     SECOND(declines = listOf("секунду", "секунды", "секунд"), milliseconds = 1000),
     MINUTE(declines = listOf("минуту", "минуты", "минут"), milliseconds = SECOND.milliseconds * 60),
@@ -48,6 +49,11 @@ enum class TimeUnits(val declines: List<String>, val milliseconds: Long) {
     }
 
     fun transform(value: Long) = value / milliseconds
+
+    fun plural(value: Int): String {
+        val pair = getDeclineIndexAndValue(value.toLong(), 1L)
+        return "$value ${decline(pair.first)}"
+    }
 }
 
 private fun getTimeUnit(value: Long): TimeUnits {
